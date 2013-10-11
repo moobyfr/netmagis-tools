@@ -1,6 +1,6 @@
 [netmagis]
 
-URL =  http://devnetmagis.unistra.fr/netmagis/add
+URL =  http://devnetmagis.unistra.fr/netmagis/
 DOMAINE = psi.ad.unistra.fr
 IDDHCPPROFIL = 99
 HINFO = PC/Windows

@@ -10,7 +10,7 @@ import ConfigParser
 
 config = ConfigParser.ConfigParser()
 config.readfp(open('config.cfg'))
-URL = config.get('netmagis', 'URL')
+URL = config.get('netmagis', 'URL') + "add"
 DOMAINE = config.get('netmagis', 'DOMAINE')
 IDDHCPPROFIL = config.get('netmagis', 'IDDHCPPROFIL')
 HINFO = config.get('netmagis', 'HINFO')
