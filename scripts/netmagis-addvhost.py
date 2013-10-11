@@ -10,7 +10,7 @@ import ConfigParser
 
 config = ConfigParser.ConfigParser()
 config.readfp(open('config.cfg'))
-URL = config.get('netmagis', 'URL') + "add"
+URL = config.get('netmagis', 'URL')+"add"
 DOMAINE = config.get('netmagis', 'DOMAINE')
 IDDHCPPROFIL = config.get('netmagis', 'IDDHCPPROFIL')
 HINFO = config.get('netmagis', 'HINFO')
@@ -18,7 +18,6 @@ COMMENTAIRE = config.get('netmagis', 'COMMENTAIRE')
 REALM = config.get('netmagis', 'REALM')
 LOGIN = config.get('netmagis', 'LOGIN')
 PASS = config.get('netmagis', 'PASS')
-
 
 
 pnom = sys.argv[1]
@@ -46,5 +45,16 @@ opener = urllib2.build_opener(auth_handler)
 file_handle = opener.open(URL, urllib.urlencode(data))
 
 print file_handle.read()
+
+
+
+
+
+
+
+
+
+
+
 
 
