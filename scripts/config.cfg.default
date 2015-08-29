@@ -1,6 +1,6 @@
 [netmagis]
 
-URL =  http://devnetmagis.unistra.fr/netmagis/
+URL =  https://devnetmagis.unistra.fr/netmagis/start
 DOMAINE = psi.ad.unistra.fr
 IDDHCPPROFIL = 99
 HINFO = PC/Windows
@@ -8,4 +8,5 @@ COMMENTAIRE = Added by netmagis-add.py
 REALM = Direction Informatique UdS
 LOGIN = USERLOGIN
 PASS = USERPASS
+CAS_SERVER = "https://cas.server.tld"
 
