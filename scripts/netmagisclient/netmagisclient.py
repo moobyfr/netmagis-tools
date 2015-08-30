@@ -98,5 +98,26 @@ class NetmagisClient(object):
         print("DELNAME ENDED")
         return returnvalue
 
-    def deleteip(self):
-        pass
+    def deleteip(self,data):
+
+        uri=self.url+"del"
+        print("DELIP IN PROGRESS : %s", uri)
+        self.br.open(uri)
+        self.br.select_form(None,None,1)
+        self.br["addr"]=data["addr"]
+        r = self.br.submit()
+        firstsubmit = r.read()
+        if 'An error occurred in Netmagis application' in firstsubmit:
+            print("Error")
+            returnvalue=1
+        else:
+            self.br.select_form(None,None,0)
+            r2 = self.br.submit()
+            secondsubmit = r2.read()
+            if 'An error occurred in Netmagis application' in secondsubmit:
+                print("Error")
+                returnvalue=1
+            else:
+                returnvalue=0
+        print("DELIP ENDED")
+        return returnvalue
