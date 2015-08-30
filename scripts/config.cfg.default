@@ -8,5 +8,5 @@ COMMENTAIRE = Added by netmagis-add.py
 REALM = Direction Informatique UdS
 LOGIN = USERLOGIN
 PASS = USERPASS
-CAS_SERVER = "https://cas.server.tld"
+CAS_SERVER = "https://cas.server.tld/cas/login"
 
