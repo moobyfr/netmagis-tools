@@ -5,7 +5,6 @@ DOMAINE = psi.ad.unistra.fr
 IDDHCPPROFIL = 99
 HINFO = PC/Windows
 COMMENTAIRE = Added by netmagis-add.py
-REALM = Direction Informatique UdS
 LOGIN = USERLOGIN
 PASS = USERPASS
 CAS_SERVER = "https://cas.server.tld/cas/login"
