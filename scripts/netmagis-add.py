@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import ConfigParser
+import sys
 
 from netmagisclient import netmagisclient
 

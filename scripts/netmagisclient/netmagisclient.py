@@ -32,17 +32,22 @@ class NetmagisClient(object):
         print("ADDVHOST IN PROGRESS : %s", uri)
         self.br.open(uri)
         self.br.select_form(None,None,2)
-        #self.br["action"]= "add-alias"
         self.br["name"]= data["name"]
         self.br["domain"]=[data["domain"]]
         self.br["nameref"]=data["nameref"]
         self.br["domainref"]=[data["domainref"]]
         r = self.br.submit()
-        #print(r.read())
+        returnaddvhost=r.read()
+        if 'An error occurred in Netmagis application' in returnaddvhost:
+            print("Error")
+            returnvalue=1
+        else:
+            returnvalue=0
         print("ADDVHOST ENDED")
+        return returnvalue
 
 
-        #WIP
+
     def add(self,data):
         uri=self.url+"add"
         print("ADD IN PROGRESS : %s", uri)
@@ -60,5 +65,10 @@ class NetmagisClient(object):
         self.br["respname"]=data["respname"]
         self.br["respmail"]=data["respmail"]
         r = self.br.submit()
-        #print(r.read())
+        if 'An error occurred in Netmagis application' in returnaddvhost:
+            print("Error")
+            returnvalue=1
+        else:
+            returnvalue=0
         print("ADD ENDED")
+        return returnvalue
