@@ -65,6 +65,7 @@ class NetmagisClient(object):
         self.br["respname"]=data["respname"]
         self.br["respmail"]=data["respmail"]
         r = self.br.submit()
+        returnaddvhost=r.read()
         if 'An error occurred in Netmagis application' in returnaddvhost:
             print("Error")
             returnvalue=1
@@ -72,3 +73,30 @@ class NetmagisClient(object):
             returnvalue=0
         print("ADD ENDED")
         return returnvalue
+
+    def deletename(self,data):
+        uri=self.url+"del"
+        print("DELNAME IN PROGRESS : %s", uri)
+        self.br.open(uri)
+        self.br.select_form(None,None,0)
+        self.br["name"]=data["name"]
+        self.br["domain"]=[data["domain"]]
+        r = self.br.submit()
+        firstsubmit = r.read()
+        if 'An error occurred in Netmagis application' in firstsubmit:
+            print("Error")
+            returnvalue=1
+        else:
+            self.br.select_form(None,None,0)
+            r2 = self.br.submit()
+            secondsubmit = r2.read()
+            if 'An error occurred in Netmagis application' in secondsubmit:
+                print("Error")
+                returnvalue=1
+            else:
+                returnvalue=0
+        print("DELNAME ENDED")
+        return returnvalue
+
+    def deleteip(self):
+        pass
