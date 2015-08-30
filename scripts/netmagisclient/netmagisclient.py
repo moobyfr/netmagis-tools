@@ -23,9 +23,7 @@ class NetmagisClient(object):
         self.br["username"]=login
         self.br["password"]=passwd
         response2 = self.br.submit()
-        #print(response2.read())
         print("LOGIN ENDED")
-
 
     def addvhost(self,data):
         uri=self.url+"add"
@@ -46,15 +44,11 @@ class NetmagisClient(object):
         print("ADDVHOST ENDED")
         return returnvalue
 
-
-
     def add(self,data):
         uri=self.url+"add"
         print("ADD IN PROGRESS : %s", uri)
         self.br.open(uri)
         self.br.select_form(None,None,0)
-        #self.br["action"]= "add"
-
         self.br["name"]= data["name"]
         self.br["domain"]=[data["domain"]]
         self.br["addr"]= data["addr"]
@@ -99,7 +93,6 @@ class NetmagisClient(object):
         return returnvalue
 
     def deleteip(self,data):
-
         uri=self.url+"del"
         print("DELIP IN PROGRESS : %s", uri)
         self.br.open(uri)
