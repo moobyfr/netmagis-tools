@@ -114,3 +114,32 @@ class NetmagisClient(object):
                 returnvalue=0
         print("DELIP ENDED")
         return returnvalue
+
+    def exportcsv(self,data):
+        uri=self.url+"net"
+        print("EXPORT IN PROGRESS : %s", uri)
+        self.br.open(uri)
+        self.br.select_form(None, None, 0)
+        c = self.br.form.controls()
+        c.set_values(c.items, "plages")
+        r = self.br.submit('docsv')
+        print r.read()
+        print ("EXPORT ENDED")
+
+    # action=add-multi&tri=addr&plage=50&naddr=16&idview=1&dosearch=Rechercher
+    def looklarge(self, data):
+        uri=self.url+"add"
+        print("LOOKLARGE IN PROGRESS : %s", uri)
+        self.br.open(uri)
+        self.br.select_form(None,None,1)
+        self.br["naddr"] = data["naddr"]
+	self.br.set_value_by_label([data["plage"]], name='plage')
+        r = self.br.submit()
+        returnlooklarge=r.read()
+        if 'An error occurred in Netmagis application' in returnlooklarge:
+            print("Error")
+            returnvalue=1
+        else:
+            returnvalue=0
+	print(returnlooklarge)
+	print("LOOKLARGE ENDED")
