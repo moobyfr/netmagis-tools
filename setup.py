@@ -6,7 +6,7 @@ with open(readme) as fh:
     long_description = fh.read()
 
 setup(name="netmagis-tools",
-      package_dir={'':'scripts'}
+      package_dir={'':'scripts'},
       version="0.1",
       description="CLI for netmagis",
       long_description=long_description,
