@@ -29,7 +29,7 @@ data = {'action': 'add-multi',
 
 mynmc = netmagisclient.NetmagisClient(URL,CAS_SERVER)
 mynmc.caslogin(LOGIN,PASS)
-mynmc.looklarge(data)
+print(mynmc.looklarge(data))
 
 
 exit(0)

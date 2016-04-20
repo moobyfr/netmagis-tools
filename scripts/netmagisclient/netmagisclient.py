@@ -126,20 +126,18 @@ class NetmagisClient(object):
         print r.read()
         print ("EXPORT ENDED")
 
-    # action=add-multi&tri=addr&plage=50&naddr=16&idview=1&dosearch=Rechercher
     def looklarge(self, data):
         uri=self.url+"add"
         print("LOOKLARGE IN PROGRESS : %s", uri)
         self.br.open(uri)
         self.br.select_form(None,None,1)
         self.br["naddr"] = data["naddr"]
-	self.br.set_value_by_label([data["plage"]], name='plage')
+        self.br.set_value_by_label([data["plage"]], name='plage')
         r = self.br.submit()
         returnlooklarge=r.read()
-        if 'An error occurred in Netmagis application' in returnlooklarge:
-            print("Error")
-            returnvalue=1
-        else:
+        if 'Aucun bloc' in returnlooklarge:
             returnvalue=0
-	print(returnlooklarge)
-	print("LOOKLARGE ENDED")
+        self.br.select_form(None,None,0)
+        returnvalue=self.br.form["addr"]
+        print("LOOKLARGE ENDED")
+        return returnvalue
