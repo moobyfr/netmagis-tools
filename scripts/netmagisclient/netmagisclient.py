@@ -62,10 +62,14 @@ class NetmagisClient(object):
         self.br["respmail"] = data["respmail"]
         r = self.br.submit()
         returnaddvhost = r.read()
-        if 'An error occurred in Netmagis application' in returnaddvhost:
+        catchable_errors = ['There is already a host named',
+                            'An error occurred in Netmagis application'
+                            ]
+        if any(x in returnaddvhost for x in catchable_errors):
             print("Error")
             returnvalue = 1
         else:
+            print(returnaddvhost)
             returnvalue = 0
         print("ADD ENDED")
         return returnvalue
