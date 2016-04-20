@@ -2,7 +2,7 @@ import mechanize
 
 
 def is_id_form(form):
-    return "id" in form.attrs and form.attrs['id'] = = "fm1"
+    return "id" in form.attrs and form.attrs['id'] == "fm1"
 
 
 class NetmagisClient(object):
