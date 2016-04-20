@@ -13,15 +13,12 @@ HINFO = config.get('netmagis', 'HINFO')
 COMMENTAIRE = config.get('netmagis', 'COMMENTAIRE')
 LOGIN = config.get('netmagis', 'LOGIN')
 PASS = config.get('netmagis', 'PASS')
-CAS_SERVER = config.get('netmagis','CAS_SERVER')
+CAS_SERVER = config.get('netmagis', 'CAS_SERVER')
 
 data = {
 }
 
-mynmc = netmagisclient.NetmagisClient(URL,CAS_SERVER)
-mynmc.caslogin(LOGIN,PASS)
+mynmc = netmagisclient.NetmagisClient(URL, CAS_SERVER)
+mynmc.caslogin(LOGIN, PASS)
 mynmc.exportcsv(data)
-
-
 exit(0)
-
