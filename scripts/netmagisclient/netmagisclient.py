@@ -138,7 +138,7 @@ class NetmagisClient(object):
         self.br.open(uri)
         self.br.select_form(None, None, 1)
         self.br["naddr"] = data["naddr"]
-        self.br.set_value_by_label([data["plage"]], name='plage')
+        self.br["plage"] = [data["plage"]]
         r = self.br.submit()
         returnlooklarge = r.read()
         if 'Aucun bloc' in returnlooklarge:

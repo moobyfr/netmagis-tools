@@ -19,7 +19,7 @@ CAS_SERVER = config.get('netmagis', 'CAS_SERVER')
 naddr = sys.argv[1]
 nomreseau = sys.argv[2]
 # example
-# nomreseau = "130.79.80.0/23 2001:660:4703:2001::/64 (IUT Sud)"
+# nomreseau = 50 (refer to sourcecode from netmagis listing)
 
 data = {'action': 'add-multi',
         'naddr': naddr,
