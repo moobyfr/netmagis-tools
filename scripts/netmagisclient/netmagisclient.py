@@ -1,4 +1,4 @@
-import mechanize
+from robobrowser import RoboBrowser
 
 
 def is_id_form(form):
@@ -10,34 +10,37 @@ class NetmagisClient(object):
     url = None     # Netmagis's URL
     casurl = None  # CAS's URL
     br = None      # the browser reference
+    c = None
+    s = None
 
     def __init__(self, url, casurl):
         self.url = url
         self.casurl = casurl
-        self.br = mechanize.Browser()
+        self.br = RoboBrowser()
 
     # call the loginURL to authenticate
     def caslogin(self, login, passwd):
         uri = self.casurl+"?service="+self.url+"start"
-        print("LOGIN IN PROGRESS : %s", uri)
+        print("LOGIN IN PROGRESS : %s" % uri)
         self.br.open(uri)
-        self.br.select_form(predicate=is_id_form)
-        self.br["username"] = login
-        self.br["password"] = passwd
-        response2 = self.br.submit()
+        form = self.br.get_form()
+        form['username'].value = login
+        form['password'].value = passwd
+        response2 = self.br.submit_form(form)
+        print(response2)
         print("LOGIN ENDED")
 
-    def addvhost(self, data):
+    def addvhost(self, data):  # XXX
         uri = self.url+"add"
         print("ADDVHOST IN PROGRESS : %s", uri)
         self.br.open(uri)
-        self.br.select_form(None, None, 2)
-        self.br["name"] = data["name"]
-        self.br["domain"] = [data["domain"]]
-        self.br["nameref"] = data["nameref"]
-        self.br["domainref"] = [data["domainref"]]
-        r = self.br.submit()
-        returnaddvhost = r.read()
+        f = self.br.get_forms()[2]
+        f["name"] = data["name"]
+        f["domain"] = data["domain"]
+        f["nameref"] = data["nameref"]
+        f["domainref"] = data["domainref"]
+        self.br.submit_form(f)
+        returnaddvhost = self.br.response.content.decode('utf8')
         if 'An error occurred in Netmagis application' in returnaddvhost:
             print("Error")
             returnvalue = 1
@@ -50,18 +53,18 @@ class NetmagisClient(object):
         uri = self.url+"add"
         print("ADD IN PROGRESS : %s", uri)
         self.br.open(uri)
-        self.br.select_form(None, None, 0)
-        self.br["name"] = data["name"]
-        self.br["domain"] = [data["domain"]]
-        self.br["addr"] = data["addr"]
-        self.br["mac"] = data["mac"]
-        self.br["iddhcpprof"] = [data["iddhcpprof"]]
-        self.br["hinfo"] = [data["hinfo"]]
-        self.br["comment"] = data["comment"]
-        self.br["respname"] = data["respname"]
-        self.br["respmail"] = data["respmail"]
-        r = self.br.submit()
-        returnaddvhost = r.read()
+        f = self.br.get_forms()[0]
+        f["name"] = data["name"]
+        f["domain"] = data["domain"]
+        f["addr"] = data["addr"]
+        f["mac"] = data["mac"]
+        f["iddhcpprof"] = data["iddhcpprof"]
+        f["hinfo"] = data["hinfo"]
+        f["comment"] = data["comment"]
+        f["respname"] = data["respname"]
+        f["respmail"] = data["respmail"]
+        self.br.submit_form(f)
+        returnaddvhost = self.br.response.content.decode('utf8')
         catchable_errors = ['There is already a host named',
                             'An error occurred in Netmagis application'
                             ]
@@ -78,18 +81,18 @@ class NetmagisClient(object):
         uri = self.url+"del"
         print("DELNAME IN PROGRESS : %s", uri)
         self.br.open(uri)
-        self.br.select_form(None, None, 0)
-        self.br["name"] = data["name"]
-        self.br["domain"] = [data["domain"]]
-        r = self.br.submit()
-        firstsubmit = r.read()
+        f = self.br.get_forms()[0]
+        f["name"] = data["name"]
+        f["domain"] = data["domain"]
+        self.br.submit_form(f)
+        firstsubmit = self.br.response.content.decode('utf8')
         if 'An error occurred in Netmagis application' in firstsubmit:
             print("Error")
             returnvalue = 1
         else:
-            self.br.select_form(None, None, 0)
-            r2 = self.br.submit()
-            secondsubmit = r2.read()
+            f2 = self.br.get_form()
+            self.br.submit_form(f2)
+            secondsubmit = self.br.response.content.decode('utf8')
             if 'An error occurred in Netmagis application' in secondsubmit:
                 print("Error")
                 returnvalue = 1
@@ -102,17 +105,17 @@ class NetmagisClient(object):
         uri = self.url+"del"
         print("DELIP IN PROGRESS : %s", uri)
         self.br.open(uri)
-        self.br.select_form(None, None, 1)
-        self.br["addr"] = data["addr"]
-        r = self.br.submit()
-        firstsubmit = r.read()
+        form = self.br.get_forms()[1]
+        form["addr"] = data["addr"]
+        self.br.submit_form(form)
+        firstsubmit = self.br.response.content.decode('utf8')
         if 'An error occurred in Netmagis application' in firstsubmit:
             print("Error")
             returnvalue = 1
         else:
-            self.br.select_form(None, None, 0)
-            r2 = self.br.submit()
-            secondsubmit = r2.read()
+            f2 = self.br.get_form()
+            self.br.submit_form(f2)
+            secondsubmit = self.br.response.content.decode('utf8')
             if 'An error occurred in Netmagis application' in secondsubmit:
                 print("Error")
                 returnvalue = 1
@@ -125,25 +128,24 @@ class NetmagisClient(object):
         uri = self.url+"net"
         print("EXPORT IN PROGRESS : %s", uri)
         self.br.open(uri)
-        self.br.select_form(None, None, 0)
-        c = self.br.form.controls()
-        c.set_values(c.items, "plages")
-        r = self.br.submit('docsv')
-        print r.read()
+        form = self.br.get_form(action='net')
+        form['plages'].value = data['plage']
+        self.br.submit_form(form, submit=form['docsv'])
+        print(self.br.response.content.decode('utf8'))
         print ("EXPORT ENDED")
 
     def looklarge(self, data):
         uri = self.url+"add"
         print("LOOKLARGE IN PROGRESS : %s", uri)
         self.br.open(uri)
-        self.br.select_form(None, None, 1)
-        self.br["naddr"] = data["naddr"]
-        self.br["plage"] = [data["plage"]]
-        r = self.br.submit()
-        returnlooklarge = r.read()
+        form = self.br.get_forms()[1]
+        form['naddr'] = data['naddr']
+        form['plage'] = data['plage']
+        self.br.submit_form(form, submit=form['dosearch'])
+        returnlooklarge = self.br.response.content.decode('utf8')
         if 'Aucun bloc' in returnlooklarge:
-            returnvalue = 0
-        self.br.select_form(None, None, 0)
-        returnvalue = self.br.form["addr"]
+            return 0
+        f2 = self.br.get_forms()[0]
+        returnvalue = f2.fields['addr'].value
         print("LOOKLARGE ENDED")
         return returnvalue

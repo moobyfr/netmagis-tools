@@ -1,10 +1,9 @@
 #!/usr/bin/python
-import ConfigParser
-import sys
+import configparser
 
 from netmagisclient import netmagisclient
 
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.readfp(open('config.cfg'))
 URL = config.get('netmagis', 'URL')
 DOMAINE = config.get('netmagis', 'DOMAINE')
@@ -15,8 +14,7 @@ LOGIN = config.get('netmagis', 'LOGIN')
 PASS = config.get('netmagis', 'PASS')
 CAS_SERVER = config.get('netmagis', 'CAS_SERVER')
 
-data = {
-}
+data = {'plage': ['50', '51']}
 
 mynmc = netmagisclient.NetmagisClient(URL, CAS_SERVER)
 mynmc.caslogin(LOGIN, PASS)

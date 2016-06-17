@@ -1,10 +1,10 @@
 #!/usr/bin/python
-import ConfigParser
+import configparser
 import sys
 
 from netmagisclient import netmagisclient
 
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.readfp(open('config.cfg'))
 URL = config.get('netmagis', 'URL')
 DOMAINE = config.get('netmagis', 'DOMAINE')
