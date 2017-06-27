@@ -16,7 +16,7 @@ class NetmagisClient(object):
     def __init__(self, url, casurl):
         self.url = url
         self.casurl = casurl
-        self.br = RoboBrowser()
+        self.br = RoboBrowser(history=True, parser='lxml')
 
     # call the loginURL to authenticate
     def caslogin(self, login, passwd):
@@ -25,7 +25,7 @@ class NetmagisClient(object):
         form = self.br.get_form()
         form['username'].value = login
         form['password'].value = passwd
-        response2 = self.br.submit_form(form)
+        self.br.submit_form(form)
 
     def addvhost(self, data):  # XXX
         uri = self.url+"add"
@@ -59,15 +59,14 @@ class NetmagisClient(object):
         f["respmail"] = data["respmail"]
         self.br.submit_form(f)
         returnaddvhost = self.br.response.content.decode('utf8')
-        catchable_errors = ['An error occurred in Netmagis application'
-                           ]
+        catchable_errors = ['An error occurred in Netmagis application']
         if any(x in returnaddvhost for x in catchable_errors):
             returnvalue = 1
         else:
             if 'There is already a host named' in returnaddvhost:
                 f2 = self.br.get_forms()[0]
                 self.br.submit_form(f2)
-                returnip = self.br.response.content.decode('utf8')
+                self.br.response.content.decode('utf8')
                 returnvalue = 0
             else:
                 returnvalue = 0
