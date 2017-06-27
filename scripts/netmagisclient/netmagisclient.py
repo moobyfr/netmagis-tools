@@ -21,17 +21,14 @@ class NetmagisClient(object):
     # call the loginURL to authenticate
     def caslogin(self, login, passwd):
         uri = self.casurl+"?service="+self.url+"start"
-        print("LOGIN IN PROGRESS : %s" % uri)
         self.br.open(uri)
         form = self.br.get_form()
         form['username'].value = login
         form['password'].value = passwd
         response2 = self.br.submit_form(form)
-        print("LOGIN ENDED")
 
     def addvhost(self, data):  # XXX
         uri = self.url+"add"
-        print("ADDVHOST IN PROGRESS : %s", uri)
         self.br.open(uri)
         f = self.br.get_forms()[2]
         f["name"] = data["name"]
@@ -41,17 +38,14 @@ class NetmagisClient(object):
         self.br.submit_form(f)
         returnaddvhost = self.br.response.content.decode('utf8')
         if 'An error occurred in Netmagis application' in returnaddvhost:
-            print("Error")
             returnvalue = 1
         else:
             returnvalue = 0
 
-        print("ADDVHOST ENDED")
         return returnvalue
 
     def add(self, data):
         uri = self.url+"add"
-        print("ADD IN PROGRESS : %s", uri)
         self.br.open(uri)
         f = self.br.get_forms()[0]
         f["name"] = data["name"]
@@ -68,7 +62,6 @@ class NetmagisClient(object):
         catchable_errors = ['An error occurred in Netmagis application'
                            ]
         if any(x in returnaddvhost for x in catchable_errors):
-            print("Error")
             returnvalue = 1
         else:
             if 'There is already a host named' in returnaddvhost:
@@ -79,12 +72,10 @@ class NetmagisClient(object):
             else:
                 returnvalue = 0
 
-        print("ADD ENDED")
         return returnvalue
 
     def deletename(self, data):
         uri = self.url+"del"
-        print("DELNAME IN PROGRESS : %s", uri)
         self.br.open(uri)
         f = self.br.get_forms()[0]
         f["name"] = data["name"]
@@ -92,56 +83,46 @@ class NetmagisClient(object):
         self.br.submit_form(f)
         firstsubmit = self.br.response.content.decode('utf8')
         if 'An error occurred in Netmagis application' in firstsubmit:
-            print("Error")
             returnvalue = 1
         else:
             f2 = self.br.get_form()
             self.br.submit_form(f2)
             secondsubmit = self.br.response.content.decode('utf8')
             if 'An error occurred in Netmagis application' in secondsubmit:
-                print("Error")
                 returnvalue = 1
             else:
                 returnvalue = 0
-        print("DELNAME ENDED")
         return returnvalue
 
     def deleteip(self, data):
         uri = self.url+"del"
-        print("DELIP IN PROGRESS : %s", uri)
         self.br.open(uri)
         form = self.br.get_forms()[1]
         form["addr"] = data["addr"]
         self.br.submit_form(form)
         firstsubmit = self.br.response.content.decode('utf8')
         if 'An error occurred in Netmagis application' in firstsubmit:
-            print("Error")
             returnvalue = 1
         else:
             f2 = self.br.get_form()
             self.br.submit_form(f2)
             secondsubmit = self.br.response.content.decode('utf8')
             if 'An error occurred in Netmagis application' in secondsubmit:
-                print("Error")
                 returnvalue = 1
             else:
                 returnvalue = 0
-        print("DELIP ENDED")
         return returnvalue
 
     def exportcsv(self, data):
         uri = self.url+"net"
-        print("EXPORT IN PROGRESS : %s", uri)
         self.br.open(uri)
         form = self.br.get_form(action='net')
         form['plages'].value = data['plage']
         self.br.submit_form(form, submit=form['docsv'])
         print(self.br.response.content.decode('utf8'))
-        print ("EXPORT ENDED")
 
     def looklarge(self, data):
         uri = self.url+"add"
-        print("LOOKLARGE IN PROGRESS : %s", uri)
         self.br.open(uri)
         form = self.br.get_forms()[1]
         form['naddr'] = data['naddr']
@@ -152,5 +133,4 @@ class NetmagisClient(object):
             return 0
         f2 = self.br.get_forms()[0]
         returnvalue = f2.fields['addr'].value
-        print("LOOKLARGE ENDED")
         return returnvalue
