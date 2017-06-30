@@ -26,8 +26,13 @@ class NetmagisClient(object):
         form['username'].value = login
         form['password'].value = passwd
         self.br.submit_form(form)
+        returnvalue = self.br.response.content.decode('utf8')
+        if 'Logged as' in returnvalue:
+            return 0
+        else:
+            return 1
 
-    def addvhost(self, data):  # XXX
+    def addvhost(self, data):
         uri = self.url+"add"
         self.br.open(uri)
         f = self.br.get_forms()[2]
@@ -41,7 +46,6 @@ class NetmagisClient(object):
             returnvalue = 1
         else:
             returnvalue = 0
-
         return returnvalue
 
     def add(self, data):
@@ -58,19 +62,18 @@ class NetmagisClient(object):
         f["respname"] = data["respname"]
         f["respmail"] = data["respmail"]
         self.br.submit_form(f)
-        returnaddvhost = self.br.response.content.decode('utf8')
+        returnadd = self.br.response.content.decode('utf8')
         catchable_errors = ['An error occurred in Netmagis application']
-        if any(x in returnaddvhost for x in catchable_errors):
+        if any(x in returnadd for x in catchable_errors):
             returnvalue = 1
         else:
-            if 'There is already a host named' in returnaddvhost:
+            if 'There is already a host named' in returnadd:
                 f2 = self.br.get_forms()[0]
                 self.br.submit_form(f2)
                 self.br.response.content.decode('utf8')
                 returnvalue = 0
             else:
                 returnvalue = 0
-
         return returnvalue
 
     def deletename(self, data):
