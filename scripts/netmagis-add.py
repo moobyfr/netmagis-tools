@@ -37,6 +37,6 @@ data = {'action': 'add-host',
 
 mynmc = netmagisclient.NetmagisClient(URL, CAS_SERVER)
 mynmc.caslogin(LOGIN, PASS)
-mynmc.add(data)
+exitvalue = mynmc.add(data)
 
-exit(0)
+exit(exitvalue)
