@@ -4,7 +4,7 @@ netmagis-tools
 netmagis-tools is a cli interface for netmagis, written in python.
 Now, you can script netmagis actions.
 
-Adapt the config.ini from reference, to mach your parameters
+Copy config.cfg.default as config.cfg and adapt the values to mach your parameters
 
 Examples:
 -----
@@ -27,3 +27,12 @@ With the basic .py files:
 ```bash
   python netmagis-deletename.py foo u-strasbg.fr
 ```
+  - export as CSV some ranges:
+```bash
+  python netmagis-exportcsv.py
+```
+  - return the first IP from an empty range(16 at least) (The value '50' is the internal ID from the network, you can find these values in HTML source for the moment)
+```bash
+  python netmagis-looklarge.py 16 50
+```
+    
