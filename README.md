@@ -6,6 +6,15 @@ Now, you can script netmagis actions.
 
 Copy config.cfg.default as config.cfg and adapt the values to mach your parameters
 
+VENV needed:
+
+```bash
+virtualenv nm
+cd nm
+. bin/activate
+pip install robobrowser lxml
+```
+
 Examples:
 -----
 
