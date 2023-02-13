@@ -12,7 +12,7 @@ VENV needed:
 virtualenv nm
 cd nm
 . bin/activate
-pip install robobrowser lxml
+pip install robobrowser lxml Werkzeug==0.16.1
 ```
 
 Examples:
